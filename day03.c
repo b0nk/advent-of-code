@@ -79,7 +79,7 @@ Node* remove_node(Node* root, Node* elem) {
 }
 
 int get_life_support_rating(Node* node, int pos, int most) {
-	if(node->prev == NULL && node->next == NULL) {
+	if(!node->next) {
 		return convert_to_binary(node->c);
 	}
 	int zeroes = 0;
@@ -94,41 +94,13 @@ int get_life_support_rating(Node* node, int pos, int most) {
 		node = node->next;
 	}
 	node = root;
-	if(most) {
-		if(zeroes > ones) {
-			while(node) {
-				if(node->c[pos] == '1') {
-					root = remove_node(root, node);
-					node = root;
-				}
-				node = node->next;
-			}
+	char most_common_bit = (most ? (zeroes > ones ? '0' : '1') : (zeroes <= ones ? '0' : '1'));
+	while (node) {
+		if (node->c[pos] != most_common_bit) {
+			root = remove_node(root, node);
+			node = root;
 		} else {
-			while(node) {
-				if(node->c[pos] == '0') {
-					root = remove_node(root, node);
-					node = root;
-				}
-				node = node->next;
-			}
-		}
-	} else {
-		if(zeroes <= ones) {
-			while(node) {
-				if(node->c[pos] == '1') {
-					root = remove_node(root, node);
-					node = root;
-				}
-				node = node->next;
-			}
-		} else {
-			while(node) {
-				if(node->c[pos] == '0') {
-					root = remove_node(root, node);
-					node = root;
-				}
-				node = node->next;
-			}
+			node = node->next;
 		}
 	}
 	return get_life_support_rating(root, ++pos, most);
@@ -171,9 +143,9 @@ int main(void) {
 		}
 		if(zeroes > ones) {
 			gamma <<= 1;
-			epsilon = ~(~epsilon << 1); // left shift '1' (slower)
+			epsilon = (epsilon << 1) | 1; // left shift '1' (slower)
 		} else {
-			gamma = ~(~gamma << 1); // left shift '1' (slower)
+			gamma = (gamma << 1) | 1; // left shift '1' (slower)
 			epsilon <<= 1;
 		}
 		zeroes = 0;
