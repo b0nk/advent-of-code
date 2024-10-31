@@ -15,7 +15,6 @@ typedef struct {
 typedef struct Node Node;
 struct Node {
 	Range* r;
-	Node* prev;
 	Node* next;
 };
 
@@ -26,15 +25,12 @@ Node* create_range(int x1, int y1, int x2, int y2) {
 	range->r->y1 = y1;
 	range->r->x2 = x2;
 	range->r->y2 = y2;
+	range->next = NULL;
 	return range;
 }
 
 void init_map(int map[][MAP_SIZE]){
-	for(int i = 0; i < MAP_SIZE; i++){
-		for(int j = 0; j < MAP_SIZE; j++){
-			map[j][i] = 0;
-		}
-	}
+	memset(map, 0, MAP_SIZE * MAP_SIZE * sizeof(int));
 }
 
 int is_horizontal(Range* range){
@@ -147,7 +143,6 @@ int main(void) {
 			head = curr;
 		} else {
 			curr->next = create_range(x1, y1, x2, y2);
-			curr->next->prev = curr;
 			curr = curr->next;
 		}
 	}
