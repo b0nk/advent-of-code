@@ -4,6 +4,7 @@
 
 #define MAP_SIZE 1000
 
+
 typedef struct {
 	int x1;
 	int x2;
@@ -60,7 +61,7 @@ void draw_pipe(int map[][MAP_SIZE], Range* range){
 			}
 		}
 	}
-	if(is_vertical(range)){
+	else if(is_vertical(range)){
 		if(range->y1 > range->y2){
 			for(int i = range->y2; i <= range->y1; i++){
 				map[range->x1][i] += 1;
@@ -68,6 +69,29 @@ void draw_pipe(int map[][MAP_SIZE], Range* range){
 		} else {
 			for(int i = range->y2; i >= range->y1; i--){
 				map[range->x1][i] += 1;
+			}
+		}
+	} else {
+		int points = abs(range->x1 - range->x2) + 1;
+		if(range->x1 > range->x2){
+			if(range->y1 > range->y2){
+				for(int i = 0; i < points; i++){
+					map[abs(range->x1 - i)][abs(range->y1 - i)] += 1;
+				}
+			} else {
+				for(int i = 0; i < points; i++){
+					map[abs(range->x1 - i)][abs(range->y1 + i)] += 1;
+				}
+			}
+		} else {
+			if(range->y1 > range->y2){
+				for(int i = 0; i < points; i++){
+					map[abs(range->x1 + i)][abs(range->y1 - i)] += 1;
+				}
+			} else {
+				for(int i = 0; i < points; i++){
+					map[abs(range->x1 + i)][abs(range->y1 + i)] += 1;
+				}
 			}
 		}
 	}
@@ -93,6 +117,16 @@ int count_overlaps(int map[][MAP_SIZE]){
 		}
 	}
 	return result;
+}
+
+void process_diagonal(int map[][MAP_SIZE], Node* root){
+	Node* curr = root;
+	while(curr){
+		if(!is_horizontal_or_vertical(curr->r)){
+			draw_pipe(map, curr->r);
+		}
+		curr = curr->next;
+	}
 }
 
 int main(void) {
@@ -121,6 +155,8 @@ int main(void) {
 	init_map(map);
 	process_horizontal_vertical(map, head);
 	part1 = count_overlaps(map);
+	process_diagonal(map, head);
+	part2 = count_overlaps(map);
 
 	printf("part1: %d\n", part1);
 	printf("part2: %d\n", part2);
