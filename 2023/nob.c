@@ -8,8 +8,8 @@ int main(int argc, char **argv)
 {
 	NOB_GO_REBUILD_URSELF(argc, argv);
 
-	if(argc > 1){ //nob day01 d
-		const char *nob_exec = nob_shift_args(&argc, &argv);
+	if(argc == 2 || argc == 3){ // ./nob day01 d
+		nob_shift_args(&argc, &argv);
 		const char *program = nob_shift_args(&argc, &argv);
 		Nob_Cmd cmd = {0};
 		nob_cmd_append(&cmd, "cc");
@@ -27,9 +27,9 @@ int main(int argc, char **argv)
 		const char *filename = strcat(strdup(program), ".c");
 		nob_cmd_append(&cmd, filename);
 		if(!nob_cmd_run_sync(cmd)) return 1; //compile
-		
+
 		cmd.count = 0;
-		
+
 		nob_cmd_append(&cmd, "./a.out");
 		if(!nob_cmd_run_sync(cmd)) return 1; //run
 	} else {
