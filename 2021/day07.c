@@ -19,6 +19,23 @@ int least_fuel(int** subs, int n_subs, int max){
 	return result;
 }
 
+int least_fuel_exponential(int** subs, int n_subs, int max){
+	int result = (unsigned int) -1 >> 1; //max int
+	for(int i = 0; i <= max; i++){
+		int fuel = 0;
+		for(int j = 0; j < n_subs; j++){
+			int steps = abs(i - *subs[j]);
+			for(int k = 0; k <= steps; k++){
+				fuel += k;
+			}
+		}
+		if(fuel < result){
+			result = fuel;
+		}
+	}
+	return result;
+}
+
 int main(void) {
 
 	char line[BUFSIZ];
@@ -43,6 +60,7 @@ int main(void) {
 	}
 
 	part1 = least_fuel(subs, n_subs, max);
+	part2 = least_fuel_exponential(subs, n_subs, max);
 
 	printf("part1: %d\n", part1);
 	printf("part2: %d\n", part2);
