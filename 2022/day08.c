@@ -58,7 +58,7 @@ void count_visible_trees_and_score(int t_map[MAP_SIZE][MAP_SIZE], int* v, int* s
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int tree_map[MAP_SIZE][MAP_SIZE];
 	int l = 0;

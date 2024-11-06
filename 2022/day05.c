@@ -91,7 +91,7 @@ void stack_operation_9001(int qty, int from, int to){
 	stacks_9001[to] = tmp;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int j = 0;
 	int n = 0;

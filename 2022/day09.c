@@ -67,7 +67,7 @@ void move_tail(Knot* head, Knot* tail){
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int unique_tail_positions = 0, unique_rope_positions = 0;
 	Knot* head = create_knot();

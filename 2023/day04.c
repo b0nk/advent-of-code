@@ -55,7 +55,7 @@ Card* fill_card(char* line){
 	return c;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char line[BUFSIZ];
 	Card** cards;
@@ -89,7 +89,7 @@ int main(int argc, char* argv){
 			sum1 += ( 1 << cards[i]->wins ) >> 1; //https://stackoverflow.com/questions/47416967/what-is-the-difference-between-1-x-and-pow2-x
 			for(int j = 0; j < cards[i]->wins; j++) {
 				copies[j + i + 1] += copies[i];
-			}	
+			}
 		}
 	}
 

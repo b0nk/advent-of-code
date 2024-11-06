@@ -21,6 +21,7 @@ int get_position(char c, const char* hand[HAND_SIZE]){
 			return i + 1;
 		}
 	}
+	return NULL;
 }
 
 int rps(char c1, char c2){
@@ -61,7 +62,7 @@ int rps2(char c1, char c2){
 	return SCISSORS + WIN;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char col1, col2;
 	int score1 = 0, score2 = 0;

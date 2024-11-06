@@ -9,7 +9,7 @@ typedef struct{
 	int wins;
 }Race;
 
-int main(int argc, char** argv){
+int main(void){
 
 	char line[BUFSIZ];
 	int part1 = 1;
@@ -76,7 +76,7 @@ int main(int argc, char** argv){
 			part2++;
 		}
 	}
-	
+
 	printf("part1: %d\n", part1);
 	printf("part2: %lu\n", part2);
 

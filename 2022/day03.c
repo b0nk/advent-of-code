@@ -49,9 +49,10 @@ char get_common_item(char* group_items){
 		group_items = strdup(tmp);
 		line = strtok_r(group_items, "\n", &save_ptr);
 	}
+	return NULL;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char shared;
 	int priority = 0;

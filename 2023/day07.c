@@ -100,7 +100,7 @@ int hand_sort(const void *x, const void *y){
 	return 0;
 }
 
-int main(int argc, char** argv){
+int main(){
 
 	char line[BUFSIZ];
 	int part1 = 0, part2 = 0;
@@ -131,14 +131,14 @@ int main(int argc, char** argv){
 	for(int i = 0; i < n_hands; i++){
 		part1 += (i + 1) * hands[i]->bid;
 	}
-	
+
 	for(int i = 0; i < n_hands; i++){
 		calc_hand_score_p2(hands[i]);
 		score_hand_p2(hands[i]);
 	}
-	
+
 	qsort(hands, n_hands, sizeof(Hand*), hand_sort);
-	
+
 	for(int i = 0; i < n_hands; i++){
 		part2 += (i + 1) * hands[i]->bid;
 	}

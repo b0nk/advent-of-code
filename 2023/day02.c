@@ -114,7 +114,7 @@ int is_possible_game(char* game_info){
 	return 0;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char line[BUFSIZ];
 	char* comma_pointer;

@@ -23,7 +23,7 @@ int is_contained_overlapped(char* c1, char* c2, int contained){
                 ((c1top >= c2bottom && c1top <= c2top) || (c1top >= c2bottom && c1top <= c2top));
 }
 
-int main(int argc, char* argv){
+int main(void){
 
         char* range1;
         char* range2;

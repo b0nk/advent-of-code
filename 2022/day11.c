@@ -127,7 +127,7 @@ void process_top(uint64_t top[], int v){
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	Monkey monkeys[N_MONKEYS];
 	Monkey monkeys_p2[N_MONKEYS];
@@ -179,7 +179,7 @@ int main(int argc, char* argv){
 	}
 
 	memcpy(monkeys_p2, monkeys, sizeof(monkeys));
-	
+
 	uint64_t common_multiple = 1;
 	for (int i = 0; i < N_MONKEYS; i++){
 		common_multiple *= monkeys[i].test_divisible;

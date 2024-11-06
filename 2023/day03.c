@@ -170,7 +170,7 @@ int find_matching_gear(Gear gears[], int idx, int counter){
 	return res;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char line[BUFSIZ];
 	char** engine_map;

@@ -53,7 +53,7 @@ void find_first_element_index(Element** elements, int* n_elements, int* first_el
 	}
 }
 
-int main(){
+int main(void){
 
 	char line[BUFSIZ];
 	int part1 = 0;
@@ -87,13 +87,13 @@ int main(){
 			elements = realloc(elements, sizeof(Element*) * limit);
 		}
 	}
-	
+
 	int instruction_length = strlen(instructions);
 	int instruction_index = 0;
 	int first_element;
 	find_first_element_index(elements, &n_elements, &first_element);
 	Element* current_element = elements[first_element];
-	
+
 	while(1){
 		int next_index = 0;
 		part1++;
@@ -112,7 +112,7 @@ int main(){
 			instruction_index = 0;
 		}
 	}
-	
+
 	limit = LIMIT_INCREASE;
 	Element** elements_p2 = malloc(sizeof(Element*) * limit);
 	int n_elements_p2 = 0;
@@ -127,7 +127,7 @@ int main(){
 			}
 		}
 	}
-	
+
 	int cycles[n_elements_p2];
 	for(int i = 0; i < n_elements_p2; i++){
 		current_element = elements_p2[i];
@@ -151,7 +151,7 @@ int main(){
 				}
 			}
 			cycles[i] = step_counter;
-			
+
 			if(strlen(first_z) == 0){
 				first_z = strdup(current_element->head);
 				step_counter = 0;
@@ -161,11 +161,11 @@ int main(){
 			}
 		}
 	}
-	
+
 	for(int i = 0; i < n_elements_p2; i++){
 		part2 = lcm(part2, cycles[i]);
 	}
-	
+
 	printf("part1: %d\n", part1);
 	printf("part2: %lu\n", part2);
 

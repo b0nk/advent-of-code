@@ -6,7 +6,7 @@
 #define WIDTH 40
 
 void increment_cycle_and_print(int* cycle, int* rax, int* next_strength, int* line, int* strength_list[], int* count){
-	
+
 	*cycle += 1;
 	if(*cycle < WIDTH * *line){
 		if(*rax == *cycle % WIDTH || *rax + 1 == *cycle % WIDTH || *rax + 2 == *cycle % WIDTH){
@@ -20,7 +20,7 @@ void increment_cycle_and_print(int* cycle, int* rax, int* next_strength, int* li
 		printf("\n");
 		*line += 1;
 	}
-	
+
 	if(*cycle == *next_strength){
 		*strength_list[*count] = *cycle * *rax;
 		*count += 1;
@@ -28,7 +28,7 @@ void increment_cycle_and_print(int* cycle, int* rax, int* next_strength, int* li
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int rax = 1;
 	int arg;

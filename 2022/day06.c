@@ -35,7 +35,7 @@ int find_data(char* str, int type){
 	return res;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int marker_pos = 0;
 	int msg_pos = 0;

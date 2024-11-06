@@ -21,7 +21,7 @@ void process_top(int v, int top[]){
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	int current_max, current_sum, current_value, top_total = 0;
 	int top[LENGTH];

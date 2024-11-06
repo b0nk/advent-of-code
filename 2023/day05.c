@@ -41,7 +41,7 @@ void fill_map(char* line, Map* map){
 	map->n_ranges += 1;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char line[BUFSIZ];
 	int section = 0;

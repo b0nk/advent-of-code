@@ -79,7 +79,7 @@ void get_digits_p1(char digits[], char* line){
 	}
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	char line[BUFSIZ];
 	char digits_p1[3] = {0};

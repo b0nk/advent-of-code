@@ -17,7 +17,7 @@ typedef struct {
 
 typedef struct Folder {
 	char name[MAX_FILENAME];
-	struct Folder *parent; 
+	struct Folder *parent;
 	int total_size;
 	int n_files;
 	File *files[MAX_FILES];
@@ -106,7 +106,7 @@ int is_digit(char c){
 	return c >= 48 && c <= 57;
 }
 
-int main(int argc, char* argv){
+int main(void){
 
 	Folder* root = create_folder(NULL, "/");
 	Folder* cursor = root;
