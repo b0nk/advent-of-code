@@ -13,13 +13,13 @@ int find_occurrences(int location, int list[LIMIT], int list_size){
 	int result = 0;
 	for(int i = 0; i < list_size && list[i] <= location; i++){
 		if(list[i] == location){
-			result ++;
+			result++;
 		}
 	}
 	return location * result;
 }
 
-int main(){
+int main(void){
 
 	char line[BUFSIZ];
 	int part1 = 0;
