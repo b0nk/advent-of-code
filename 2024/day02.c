@@ -13,6 +13,7 @@ struct Node{
 
 typedef struct{
 	int safe;
+	int levels_n;
 	Node* levels;
 } Report;
 
@@ -23,12 +24,14 @@ void report_add_level(Report* r, int v){
 		if(!curr){
 			curr = malloc(sizeof(Node));
 			curr->level = v;
+			r->levels_n += 1;
 			r->levels = curr;
 			break;
 		}
 		else if(curr->next == NULL){
 			curr->next = malloc(sizeof(Node));
 			curr->next->level = v;
+			r->levels_n += 1;
 			break;
 		}
 		curr = curr->next;
@@ -39,6 +42,7 @@ void report_add_level(Report* r, int v){
 Report report_create(char* line){
 	Report r;
 	r.safe = 0;
+	r.levels_n = 0;
 	r.levels = NULL;
 	char* tkn = strtok(line, " ");
 	while(tkn){
@@ -91,6 +95,52 @@ int determine_safety(Report* report){
 	return report->safe;
 }
 
+void remove_nth_level(Report* report, int index){
+	int counter = 0;
+	Node* curr = report->levels;
+	Node* prev = curr;
+	do{
+		if(index == 0){
+			report->levels = curr->next;
+			break;
+		} else if(index == counter){
+			prev->next = curr->next;
+			break;
+		}
+		counter++;
+		prev = curr;
+		curr = curr->next;
+	} while(counter <= index);
+}
+
+Report* report_copy(Report* orig){
+	Report* copy = malloc(sizeof(Report));
+	copy->safe = orig->safe;
+	copy->levels_n = orig->levels_n;
+	Node* curr = orig->levels;
+	while(curr){
+		report_add_level(copy, curr->level);
+		curr = curr->next;
+	}
+	return copy;
+}
+
+int determine_safety_dampener(Report* report){
+	Report* temp = report_copy(report);
+	for(int i = 0; i < report->levels_n; i++){
+		remove_nth_level(temp, i);
+		temp->safe = is_all_increase_decrease(temp) && is_safe_diff(temp);
+		if(temp->safe){
+			break;
+		}
+		free(temp);
+		temp = report_copy(report);
+	}
+	report->safe = temp->safe;
+	free(temp);
+	return report->safe;
+}
+
 int main(){
 
 	char line[BUFSIZ];
@@ -106,6 +156,13 @@ int main(){
 
 	for(int i = 0; i < reports_n; i++){
 		part1 += determine_safety(&reports[i]);
+	}
+
+	part2 = part1;
+	for(int i = 0; i < reports_n; i++){
+		if(!reports[i].safe){
+			part2 += determine_safety_dampener(&reports[i]);
+		}
 	}
 
 	printf("part1: %d\n", part1);
