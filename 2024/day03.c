@@ -4,69 +4,53 @@
 #include <regex.h>
 
 #define LIMIT 1000
-#define PATTERN "mul\\(([0-9]+),([0-9]+)\\)"
+#define PATTERN "(mul\\(([0-9]+),([0-9]+)\\)|don't\\(\\)|do\\(\\))"
 
-
-typedef struct Node Node;
-struct Node{
-	int x;
-	int y;
-	Node* next;
-};
-
-Node* node_create(int x, int y){
-	Node* node = malloc(sizeof(Node));
-	node->x = x;
-	node->y = y;
-	node->next = NULL;
-	return node;
-}
 
 int main(void){
 
 	char line[BUFSIZ];
 	int part1 = 0;
 	int part2 = 0;
-	regex_t regex;
-	int pat_error;
-	Node* head = NULL;
-	Node* curr = NULL;
-	pat_error = regcomp(&regex, PATTERN, REG_EXTENDED);
-	if(pat_error != 0){
-		return pat_error;
+
+	regex_t mul_regex;
+	int mul_pat_error;
+	mul_pat_error = regcomp(&mul_regex, PATTERN, REG_EXTENDED);
+	if(mul_pat_error != 0){
+		return mul_pat_error;
 	}
-	int nmatch = 3;
-	regmatch_t match[nmatch + 1];
-	int match_error = 0;
+	int mul_nmatch = 4;
+	regmatch_t mul_match[mul_nmatch];
+
+	int mul_enabled = 1;
 
 	while(fgets(line, BUFSIZ, stdin) != NULL) {
 		line[strcspn(line, "\n")] = 0;
-		match_error = regexec(&regex, line, nmatch, match, 0);
 		int end_index = 0;
-		char value[BUFSIZ];
-		while(match_error == 0){
-			memset(value, 0, sizeof(value));
-			strncpy(value, line + end_index + match[1].rm_so, match[1].rm_eo - match[1].rm_so);
-			int x = atoi(value);
-			memset(value, 0, sizeof(value));
-			strncpy(value, line + end_index + match[2].rm_so, match[2].rm_eo - match[2].rm_so);
-			int y = atoi(value);
-			if(curr) {
-				curr->next = node_create(x, y);
-				curr = curr->next;
-			} else {
-				curr = node_create(x, y);
-				head = curr;
+		while(regexec(&mul_regex, &line[end_index], mul_nmatch, mul_match, 0) == 0){
+			int i = 0;
+			for(; i < mul_nmatch && mul_match[i].rm_so != -1; i++){
+				char str[BUFSIZ] = {0};
+				strncpy(str, line + end_index + mul_match[i].rm_so, mul_match[i].rm_eo - mul_match[i].rm_so);
+				if((strncmp(str, "mul", 3) == 0)) {
+					int x;
+					int y;
+					sscanf(str, "mul(%d,%d)", &x, &y);
+					part1 += x * y;
+					if(mul_enabled){
+						part2 += x * y;
+					}
+					i += 3;
+				} else if (strncmp(str, "do(", 3) == 0) {
+					mul_enabled = 1;
+					i += 1;
+				} else if (strncmp(str, "don", 3) == 0) {
+					mul_enabled = 0;
+					i += 1;
+				}
 			}
-			end_index += match[0].rm_eo;
-			match_error = regexec(&regex, &line[end_index], nmatch, match, 0);
+			end_index += mul_match[i - 1].rm_eo;
 		}
-	}
-
-	curr = head;
-	while(curr){
-		part1 += curr->x * curr->y;
-		curr = curr->next;
 	}
 
 	printf("part1: %d\n", part1);
