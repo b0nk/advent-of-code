@@ -141,7 +141,7 @@ int determine_safety_dampener(Report* report){
 	return report->safe;
 }
 
-int main(){
+int main(void){
 
 	char line[BUFSIZ];
 	int part1 = 0;
