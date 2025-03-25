@@ -78,6 +78,7 @@ Folder* change_dir(Folder* cursor, char* destination){
 			return cursor->folders[i];
 		}
 	}
+	return NULL;
 }
 
 void calculate_folder_sizes(Folder* cursor, Folder* list[], int* count, int limit){
