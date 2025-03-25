@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LIMIT 1000
-
 
 typedef struct Node Node;
 struct Node {
