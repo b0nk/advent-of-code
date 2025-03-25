@@ -38,10 +38,10 @@ BasinNode* create_basin(int x, int y){
 	pos.x = x;
 	pos.y = y;
 	b.pos = pos;
-	
+
 	b_node->b = b;
 	b_node->next = NULL;
-	//printf("Created basin @ %d, %d\n", b_node->b.pos.x, b_node->b.pos.y);
+	
 	return b_node;
 }
 
@@ -93,10 +93,8 @@ int find_largest_basins(int map[][MAP_COLS], BasinNode** head){
 	int top3[3] = {0};
 	BasinNode* curr = *head;
 	while(curr){
-		//printf("Basin (%d, %d) v = %d\n", curr->b.pos.x, curr->b.pos.y, map[curr->b.pos.x][curr->b.pos.y]);
 		curr = curr->next;
 	}
-	
 	return 0;
 }
 
