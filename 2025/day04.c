@@ -1,8 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define MAP_SIZE 138
 
+
+typedef struct Node Node;
+struct Node {
+	int row;
+	int col;
+	Node* next;
+};
+
+Node* create_node(int x, int y) {
+	Node* n = (Node*)malloc(sizeof(Node));
+	n->row = x;
+	n->col = y;
+	return n;
+}
 
 int check_up(char map[MAP_SIZE][MAP_SIZE], int row, int col){
 	if(row == 0){
@@ -89,10 +104,40 @@ int main(void) {
 
 	for(int i = 0; i < MAP_SIZE; i++){
 		for(int j = 0; j < MAP_SIZE; j++){
-			if(map[i][j] == '@'){
-				part1 += check_access(map, i, j);
+			if(map[i][j] == '@' && check_access(map, i, j)){
+				part1++;
 			}
 		}
+	}
+
+	Node* head = NULL;
+	Node* curr = NULL;
+	int rolls = 1;
+
+	while(rolls){
+		rolls = 0;
+		for(int i = 0; i < MAP_SIZE; i++){
+			for(int j = 0; j < MAP_SIZE; j++){
+				if(map[i][j] == '@' && check_access(map, i, j)){
+					part2++;
+					rolls++;
+					if(curr) {
+						curr->next = create_node(i, j);
+						curr = curr->next;
+					} else {
+						curr = create_node(i, j);
+						head = curr;
+					}
+				}
+			}
+		}
+
+		curr = head;
+		while(curr){
+			map[curr->row][curr->col] = '.';
+			curr = curr->next;
+		}
+		curr = NULL;
 	}
 
 	printf("part1: %d\n", part1);
