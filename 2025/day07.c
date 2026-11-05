@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #define D_SIZE 150
+
 
 typedef struct Grid Grid;
 struct Grid {
@@ -14,7 +14,7 @@ int main(void) {
 
 	char line[BUFSIZ];
 	int part1 = 0;
-	unsigned long part2 = 0;
+	unsigned long part2 = 1;
 	Grid diagram[D_SIZE][D_SIZE] = {0};
 	int lines = 0;
 	int length = 0;
@@ -22,12 +22,12 @@ int main(void) {
 	char c_beam = '|';
 	char c_empty = '.';
 
-	while(fgets(line, BUFSIZ, stdin) != NULL) {
+	while (fgets(line, BUFSIZ, stdin) != NULL) {
 		line[strcspn(line, "\n")] = 0;
-		if(!length) {
+		if (!length) {
 			length = strlen(line);
 		}
-		for(int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			diagram[lines][i].c = line[i];
 		}
 		lines++;
@@ -90,7 +90,7 @@ int main(void) {
 		}
 	}
 
-	for(int i = 0; i < length; i++) {
+	for (int i = 0; i < length; i++) {
 		part2 += diagram[lines - 1][i].ways;
 	}
 
@@ -99,4 +99,3 @@ int main(void) {
 
 	return 0;
 }
-
