@@ -23,14 +23,42 @@ struct Circuit {
 	Circuit *next;
 };
 
-int circuit_exists(){
+typedef struct CircuitItem CircuitItem;
+struct CircuitItem {
+	Circuit *circuit;
+	CircuitItem *next;
+};
 
-	return 0;
+Node* get_matching_node(DistanceNode* dn, Node* n){
+
+}
+
+void create_or_add_to_circuit(DistanceNode* node, CircuitItem* items){
+	for(CircuitItem* c = items; c != NULL; c = c->next){
+		if(c->circuit){
+			//search if box exists then add else skip
+			Circuit* curr_c = c->circuit;
+			while(curr_c){
+				// return matching node
+				Node* matching_node = get_matching_node(node, curr_c->box);
+				if(matching_node){
+					curr_c->box = matching_node;
+				}
+				curr_c = curr_c->next;
+			}
+		} else {
+			//create circuit
+			c->circuit = (Circuit *)malloc(sizeof(Circuit));
+			c->circuit->box = node->a;
+			c->circuit->next = (Circuit *)malloc(sizeof(Circuit));
+			c->circuit->next->box = node->b;
+		}
+	}
 }
 
 int compare_distance_ascending(const void *a, const void *b) {
-	DistanceNode *da = *(DistanceNode * const *)a;
-	DistanceNode *db = *(DistanceNode * const *)b;
+	DistanceNode *da = *(DistanceNode**)a;
+	DistanceNode *db = *(DistanceNode**)b;
 
 	if (da->distance < db->distance) return -1;
 	if (da->distance > db->distance) return 1;
@@ -120,10 +148,13 @@ int main(void) {
 
 	qsort(distanceNodes, n_distance_nodes, sizeof(distanceNodes[0]), compare_distance_ascending);
 
+	CircuitItem* circuits = (CircuitItem *)malloc(sizeof(CircuitItem));
+
 	int n_circuits = 0;
 	for (int i = 0; i < n_distance_nodes; i++) {
-		printf("distance: %.5f, a(%d,%d,%d) -> b(%d,%d,%d)\n", distanceNodes[i]->distance, distanceNodes[i]->a->x, distanceNodes[i]->a->y, distanceNodes[i]->a->z, distanceNodes[i]->b->x, distanceNodes[i]->b->y, distanceNodes[i]->b->z);
-
+		//printf("distance: %.5f, a(%d,%d,%d) -> b(%d,%d,%d)\n", distanceNodes[i]->distance, distanceNodes[i]->a->x, distanceNodes[i]->a->y, distanceNodes[i]->a->z, distanceNodes[i]->b->x, distanceNodes[i]->b->y, distanceNodes[i]->b->z);
+		//if exists in a circuit then add else create
+		create_or_add_to_circuit(distanceNodes[i], circuits);
 	}
 
 	printf("part1: %d\n", part1);
